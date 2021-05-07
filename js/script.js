@@ -60,7 +60,8 @@ function tagClickHandler(event){
 const optArticleSelector = '.post',
   optTitleSelector = '.post-title',
   optTitleListSelector = '.titles',
-  optArticleTagsSelector = '.post-tags .list';
+  optArticleTagsSelector = '.post-tags .list',
+  optArticleAuthorSelector = '.post-author';
 
 function generateTitleLinks(customSelector = ''){
   /* [DONE] remove contents of titleList */
@@ -118,8 +119,17 @@ function generateTags(){
 generateTags();
 
 function generateAuthors(){
-  const articles = document.querySelectorAll('.post');
+  const articles = document.querySelectorAll(optArticleSelector);
+  for(let article of articles){
+    const author = article.getAttribute('data-author');
+    const authorWrapper = article.querySelector(optArticleAuthorSelector);
+    let html = authorWrapper.innerHTML;
+    html = html + author;
+    authorWrapper.innerHTML = html;
+  }
 }
+
+generateAuthors();
 
 function addClickListenersToTags(){
   /* find all links to tags */
