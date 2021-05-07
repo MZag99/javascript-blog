@@ -121,6 +121,11 @@ body {
     margin: 0 10px 0 0;
   }
 }
+.sidebar a{
+  text-decoration:none;
+  color:$color-dark;
+  cursor:pointer;
+}
 @media (max-width:768px){
     .wrapper{
         flex-direction: column;
