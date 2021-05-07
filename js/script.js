@@ -27,6 +27,15 @@ function titleClickHandler(event){
   article.classList.add('active');
 }
 
+function authorClickHandler(event){
+  event.preventDefault();
+  const clickedElement = this;
+  const href = clickedElement.getAttribute('href');
+  let author = href.replace('#','');
+  author = author.replace('-',' ');
+  generateTitleLinks('[data-author="' + author + '"]');
+}
+
 function tagClickHandler(event){
   /* prevent default action for this event */
   event.preventDefault();
@@ -124,7 +133,8 @@ function generateAuthors(){
     const author = article.getAttribute('data-author');
     const authorWrapper = article.querySelector(optArticleAuthorSelector);
     let html = authorWrapper.innerHTML;
-    html = html + author;
+    const authorTag = author.replace(' ','-');
+    html = html + '<a href=#' + authorTag + '>' + author + '</a>';
     authorWrapper.innerHTML = html;
   }
 }
@@ -144,4 +154,11 @@ function addClickListenersToTags(){
 
 addClickListenersToTags();
 
+function addClickListenersToAuthors(){
+  const authorLinks = document.querySelectorAll('.post-author a');
+  for(let authorLink of authorLinks){
+    authorLink.addEventListener('click', authorClickHandler);
+  }
+}
 
+addClickListenersToAuthors();
