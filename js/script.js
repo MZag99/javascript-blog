@@ -70,7 +70,8 @@ const optArticleSelector = '.post',
   optTitleSelector = '.post-title',
   optTitleListSelector = '.titles',
   optArticleTagsSelector = '.post-tags .list',
-  optArticleAuthorSelector = '.post-author';
+  optArticleAuthorSelector = '.post-author',
+  optTagsListSelector = '.tags.list';
 
 function generateTitleLinks(customSelector = ''){
   /* [DONE] remove contents of titleList */
@@ -100,6 +101,8 @@ for(let link of links){
 generateTitleLinks();
 
 function generateTags(){
+  /* [NEW] create a new variable allTags with an empty object */
+  let allTags = {};
   /* find all articles */
   const articles = document.querySelectorAll(optArticleSelector);
   /* START LOOP: for every article: */
@@ -118,12 +121,29 @@ function generateTags(){
         const linkHTML = '<li><a href = #tag-' + tag + '>' + tag  + '</a></li>';
       /* add generated code to html variable */
         html = html + ' ' + linkHTML;
+        /* [NEW] check if this link is NOT already in allTags */
+      if(!allTags.hasOwnProperty(tag)){
+        /* [NEW] add generated code to allTags object */
+        allTags[tag] = 1;
+      }
+      else{
+        allTags[tag]++;
+      }
     /* END LOOP: for each tag */
       }
     /* insert HTML of all the links into the tags wrapper */ 
       tagsWrapper.innerHTML = html;
   /* END LOOP: for every article: */
   }
+  /* [NEW] find list of tags in right column */
+  const tagList = document.querySelector('.tags');
+  
+  let allTagsHTML = '';
+  for (let tag in allTags){
+    allTagsHTML += '<li><a href=#tag-' + tag + '>' + tag + '(' + allTags[tag] + ')</a></li>';
+  }
+
+  tagList.innerHTML = allTagsHTML;
 }
 generateTags();
 
@@ -143,7 +163,7 @@ generateAuthors();
 
 function addClickListenersToTags(){
   /* find all links to tags */
-  const tagLinks = document.querySelectorAll('.post-tags a');
+  const tagLinks = document.querySelectorAll('.list-horizontal a, .list.tags a');
   /* START LOOP: for each link */
   for(let tagLink of tagLinks){
     /* add tagClickHandler as event listener for that link */
