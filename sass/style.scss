@@ -49,11 +49,15 @@ body {
 }
 
 .sidebar {
+  flex: 2 0 0;
+}
+.sidebar:first-of-type{
+  text-align: center;
   flex: 1 0 0;
 }
 
 .posts {
-  flex: 2 0 0;
+  flex: 3 0 0;
 }
 
 .sidebar, .posts {
@@ -126,6 +130,30 @@ body {
   text-decoration:none;
   color:$color-dark;
   cursor:pointer;
+}
+.list.tags{
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+}
+.list.tags a{
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.6);
+  font-family:$font-header;
+  margin:2px;
+}
+.tag-size-1{
+  font-size:16px;
+}
+.tag-size-2{
+  font-size:20px;
+}
+.tag-size-3{
+  font-size:24px;
+  font-style:italic;
+}
+.tag-size-4{
+  font-size:28px;
+  font-weight:bold;
 }
 @media (max-width:768px){
     .wrapper{
