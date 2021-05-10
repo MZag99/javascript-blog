@@ -30,6 +30,11 @@ function titleClickHandler(event){
 function authorClickHandler(event){
   event.preventDefault();
   const clickedElement = this;
+  const authorsList = document.querySelectorAll('.list.authors a');
+  for(let authorLink of authorsList){
+    authorLink.classList.remove('active');
+  }
+  clickedElement.classList.add('active');
   const href = clickedElement.getAttribute('href');
   let author = href.replace('#','');
   author = author.replace('-',' ');
@@ -74,7 +79,7 @@ const optArticleSelector = '.post',
   optTagsListSelector = '.tags.list',
   optCloudClassCount = 5,
   optCloudClassPrefix = 'tag-size-',
-  optAuthorListSelector = '.list .authors';
+  optAuthorListSelector = '.list.authors';
 
 function generateTitleLinks(customSelector = ''){
   /* [DONE] remove contents of titleList */
@@ -193,14 +198,21 @@ generateTags();
 
 function generateAuthors(){
   const articles = document.querySelectorAll(optArticleSelector);
+  const authorList = document.querySelector(optAuthorListSelector);
+  let listHTML = [];
   for(let article of articles){
     const author = article.getAttribute('data-author');
     const authorWrapper = article.querySelector(optArticleAuthorSelector);
     let html = authorWrapper.innerHTML;
     const authorTag = author.replace(' ','-');
     html = html + '<a href=#' + authorTag + '>' + author + '</a>';
+    if(listHTML.indexOf('<li><a href=#' + authorTag + '>' + author + '</a></li>') == -1){
+      listHTML.push('<li><a href=#' + authorTag + '>' + author + '</a></li>');
+    };
     authorWrapper.innerHTML = html;
   }
+  const authors = listHTML.join('');
+  authorList.innerHTML = authors;
 }
 
 generateAuthors();
@@ -219,10 +231,20 @@ function addClickListenersToTags(){
 addClickListenersToTags();
 
 function addClickListenersToAuthors(){
-  const authorLinks = document.querySelectorAll('.post-author a');
+  const authorLinks = document.querySelectorAll('.post-author a, .list.authors a');
   for(let authorLink of authorLinks){
     authorLink.addEventListener('click', authorClickHandler);
   }
 }
 
 addClickListenersToAuthors();
+
+//Delete class active from all links if ALL POSTS button is clicked.
+const allPosts = document.querySelector('h2 a');
+
+allPosts.addEventListener('click', function(){
+  const authorList = document.querySelectorAll('.list a');
+  for(let authorlink of authorList){
+  authorlink.classList.remove('active');
+  }
+})
